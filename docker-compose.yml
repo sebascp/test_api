@@ -1,0 +1,15 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+  web:
+    build: .
+    command: bash -c "bundle exec rackup --port=9292 --host=0.0.0.0 config.ru"
+    volumes:
+      - .:/test_api
+    ports:
+      - "9292:9292"
+    depends_on:
+      - db
